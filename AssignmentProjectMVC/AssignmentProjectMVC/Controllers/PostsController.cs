@@ -24,7 +24,13 @@ namespace AssignmentProjectMVC.Controllers
         {
             return View(await _context.Post.ToListAsync());
         }
-
+        [HttpGet]
+        [Route("api/Post/GetAllPost")]
+        public IActionResult GetAllPost()
+        {
+            var AllPosts = _context.Post.ToList();
+            return Ok(AllPosts);
+        }
         // GET: Posts/Details/5
         public async Task<IActionResult> Details(int? id)
         {

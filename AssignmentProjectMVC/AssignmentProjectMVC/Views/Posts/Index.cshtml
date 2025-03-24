@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AssignmentProjectMVC.Models.Post>
+﻿@* @model IEnumerable<AssignmentProjectMVC.Models.Post>
 
 @{
     ViewData["Title"] = "Index";
@@ -39,3 +39,174 @@
 }
     </tbody>
 </table>
+ *@
+ @model IEnumerable<AssignmentProjectMVC.Models.Post>
+
+@{
+    ViewData["Title"] = "PostIndex";
+}
+
+<h1>PostIndex</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="Post" class="table">
+    <thead>
+        <tr>
+           
+            <th>ID</th>
+            <th>Title</th>
+            <th>Body</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody >
+       @*  @foreach (var item in Model) {
+        <tr>
+        <td>
+        @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+        @Html.DisplayFor(modelItem => item.Body)
+        </td>
+        <td>
+        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </td>
+        </tr>
+        } *@
+@* 
+
+<form id="addItemForm">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" class="form-control" id="title" placeholder="Enter title">
+    </div>
+    <div class="form-group">
+        <label for="Body">Body</label>
+        <input type="text" class="form-control" id="body" placeholder="Enter body">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Item</button>
+</form>
+
+ *@
+    </tbody>
+</table>
+@*  <script>
+    window.onload = function () {
+        fetchItems();
+    };
+
+    // Fetch items from API
+    function fetchItems() {
+        axios.get('/api/PostAPI/GetAllPost')
+            .then(function (response) {
+                const items = response.data;
+                const itemsTable = document.getElementById('itemsTable');
+                itemsTable.innerHTML = '';  // Clear existing rows
+
+                // Populate table with fetched items
+                items.forEach(item => {
+                    let row = document.createElement('tr');
+                    row.innerHTML = `
+                                <td>${item.id}</td>
+                                <td>${item.title}</td>
+                                    <td>${item.body}</td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="deleteItem(${item.id})">Delete</button>
+                                </td>
+                            `;
+                    itemsTable.appendChild(row);
+                });
+            })
+            .catch(function (error) {
+                console.error("There was an error fetching the items:", error);
+            });
+    }
+
+    // Handle the form submit to add a new item
+    document.getElementById('addItemForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const title = document.getElementById('title').value;
+
+        // POST request to add a new item
+        axios.post('/api/post/AddPost', { title: title })
+            .then(function (response) {
+                console.log(response.data);
+                fetchItems();  // Refresh the table
+                document.getElementById('title').value = '';  // Clear input field
+            })
+            .catch(function (error) {
+                console.error("There was an error adding the item:", error);
+            });
+    });
+
+    // Delete an item from the list
+    function deleteItem(id) {
+        axios.delete(`/api/post/${id}`)
+            .then(function (response) {
+                console.log("Item deleted", response.data);
+                fetchItems();  // Refresh the table
+            })
+            .catch(function (error) {
+                console.error("There was an error deleting the item:", error);
+            });
+    }
+</script>
+ *@
+@* <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        window.onload = function () {
+            fetchItems();
+        }; (function () {
+            var person = '{Name: "' + $("#txtName").val() + '" }';
+            $.ajax({
+                type: "POST",
+                url: "/api/AjaxAPI/AjaxMethod",
+                data: person,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+    });
+</script>
+ *@
+@section scripts{
+<script>
+    $(document).ready(function () {
+        var table = $("#Post").Datatable(); 
+            ajax: {
+                    url: "api/Post/GetAllPost",
+            dataSrc:"",
+            method:"Post"
+        },
+            columns: [{
+                data: "Title"
+            },
+            {
+                data: "Body"
+            },
+            {
+                data:"edit",
+                render: function (data, type, Post) {
+                    return "<a class='btn btn-link' href='api/Post/UpdatePost"+ post.id+"'>Edit</a>";
+                }
+            }
+            ]
+        }
+    });
+</script>
+
+}        
